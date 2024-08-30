@@ -27,10 +27,11 @@
                     <label class="form-label">Field {{ $index + 1 }}</label>
                 </div>
                 <div class="col-8">
-                    <select class="form-control px-1" wire:model="selects.{{ $index }}">
+                    <select class="form-control px-1" wire:model.live="selects.{{ $index }}">
                         <option value="">Select a field type</option>
-                        <option value="Number">Option Number</option>
-                        <option value="String">Option String</option>
+                        @foreach(\App\Helpers\FakerHelper::fieldTypes() as $type)
+                            <option value="{{$type}}">{{Str::ucfirst($type)}}</option>
+                        @endforeach
                     </select>
                 </div>
                 <div class="col-2">

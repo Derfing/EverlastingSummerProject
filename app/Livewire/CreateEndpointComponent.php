@@ -9,35 +9,30 @@ class CreateEndpointComponent extends Component
 {
     public $name;
     public $method;
-    public $selects = []; // Массив для хранения значений полей выбора
-    public $inputs = [];  // Массив для хранения значений текстовых полей
+    public $selects = [];
+    public $inputs = [];
 
     public function mount()
     {
-        // Инициализируем первый выбор и связанные поля
         $this->addSelect();
     }
 
     public function addSelect()
     {
-        // Добавляем новое поле выбора с пустым значением
         $this->selects[] = '';
     }
 
     public function removeSelect($index)
     {
-        // Удаляем поле выбора и связанные с ним текстовые поля
         unset($this->selects[$index]);
         unset($this->inputs[$index]);
     }
 
     public function updatedSelects($value, $key)
     {
-        // Если выбран 'b', добавляем два текстовых поля для этого выбора
         if ($value == 'Number' || $value == 'String') {
-            $this->inputs[$key] = ['', '']; // Два текстовых поля для конкретного выбора
+            $this->inputs[$key] = ['', ''];
         } else {
-            // Если выбран не 'b', очищаем текстовые поля
             unset($this->inputs[$key]);
         }
         $this->render();
@@ -45,25 +40,24 @@ class CreateEndpointComponent extends Component
 
     public function submit()
     {
-        // Логика обработки формы, например, валидация и сохранение
         $this->validate([
             'name' => 'required|string|max:255',
             'method' => 'required|string|max:255',
-            'selects.*' => 'required|string', // Валидация для каждого выбора
-            'inputs.*.*' => 'nullable|string', // Валидация для текстовых полей
+            'selects.*' => 'required|string',
+            'inputs.*.*' => 'nullable|string',
         ]);
 
         $result = [];
 
         foreach ($this->selects as $index => $select) {
-            $result[$select] = data_get($this->inputs, $index);
+            $result[$select] = data_get($this->inputs, $index) ?? 'object';
         }
 
         $endpoint = new Endpoint();
 
         $endpoint->name = $this->name;
         $endpoint->method = $this->method;
-        $endpoint->url = config('app.url') . '/api/v0/' . auth()->user()->name . '/' . $this->name;
+        $endpoint->url = auth()->user()->name . '/' . $this->name;
         $endpoint->data = json_encode($result);
         $endpoint->user_id = auth()->user()->id;
 

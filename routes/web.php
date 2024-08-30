@@ -2,11 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::view('/', 'dashboard')->middleware(['auth', 'verified'])
-    ->name('dashboard');
-
-Route::view('dashboard', 'dashboard')
-    ->middleware(['auth', 'verified'])
+Route::view('/', 'endpoints')->middleware(['auth', 'verified'])
     ->name('dashboard');
 
 Route::view('endpoints/create', 'endpoints_create')
@@ -24,6 +20,14 @@ Route::view('endpoints', 'endpoints')
 Route::view('objects', 'objects')
     ->middleware(['auth', 'verified'])
     ->name('objects');
+
+Route::view('objects/create', 'objects_create')
+    ->middleware(['auth', 'verified'])
+    ->name('objects.create');
+
+Route::view('objects/edit/{id}', 'objects_edit')
+    ->middleware(['auth', 'verified'])
+    ->name('objects.edit');
 
 Route::view('profile', 'profile')
     ->middleware(['auth'])

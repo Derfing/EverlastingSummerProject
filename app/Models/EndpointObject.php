@@ -18,4 +18,10 @@ class EndpointObject extends Model
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
+
+    public static function getDataByName($name)
+    {
+        $object = self::where('name', $name)->first();
+        return $object ? json_decode($object->data, true) : null;
+    }
 }
