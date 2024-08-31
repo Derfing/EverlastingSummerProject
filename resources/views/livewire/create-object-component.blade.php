@@ -49,7 +49,9 @@
                         <select class="form-control" wire:model.live="inputs.{{ $index }}.1">
                             <option value="">Select an object type</option>
                             @foreach(auth()->user()->endpointObjects as $object)
-                                <option value="{{$object->id}}">{{Str::ucfirst($object->name)}}</option>
+                                @if($object->name != $name)
+                                    <option value="{{ $object->id }}">{{ Str::ucfirst($object->name) }}</option>
+                                @endif
                             @endforeach
                         </select>
                     </div>
