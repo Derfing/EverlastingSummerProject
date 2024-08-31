@@ -33,4 +33,8 @@ Route::view('profile', 'profile')
     ->middleware(['auth'])
     ->name('profile');
 
+Route::get('phpinfo', function()
+{echo phpinfo();}
+);
+
 require __DIR__.'/auth.php';
