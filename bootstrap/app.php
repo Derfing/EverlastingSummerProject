@@ -14,8 +14,6 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->validateCsrfTokens(except: [
         'livewire/update',
-        'http://example.com/foo/bar',
-        'http://example.com/foo/*',
     ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
